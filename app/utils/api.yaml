@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+    title: Acme Users and Products API
+    version: 1.0.0
+    description: An API that provides access to Acme's users and products
+
+servers:
+    -   url: http://localhost:3001/api
+        description: API server built with Node and Express
+
+paths:
+    /users:
+        get:
+            operationId: getUsers
+            summary: get all Users
+            description: Returns a list of all users
+            parameters:
+              - in: query
+                name: sort
+                required: false
+                schema: 
+                    type: string
+            responses:
+                200:
+                    description: A list of users
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/User"
+    /user/{userId}:
+        get:
+            operationId: getOneUser
+            summary: get one user by id
+            description: returns a single user
+            parameters:
+              - in: path
+                name: userId
+                required: true
+                schema:
+                    type: integer
+                responses:
+                    200:
+                        description: get a single user
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/User'
+        put:
+            operationId: updateUser
+            summary: update one user
+            description: returns an updated single user
+            parameters:
+              - in: path
+                name: userId
+                required: true
+                schema:
+                    type: integer
+                responses:
+                    200:
+                        description: update a single user
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/User'
+        delete:
+            operationId: removeUser
+            summary: delete one user
+            description: returns a deleted single user
+            parameters:
+              - in: path
+                name: userId
+                required: true
+                schema:
+                    type: integer
+                responses:
+                    200:
+                        description: delete a single user
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/User'
+
+components:
+    schemas:
+        User:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: The user id
+                name:
+                    type: string
+                    description: The user fist and last name
+                phone:
+                    type: string
+                    description: The user phone number
+                email:
+                    type: string
+                    description: The user email address

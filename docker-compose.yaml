@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  db:
+    build: ./db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: collection_app
+    restart: always
+  web:
+    build: ./app
+    environment:
+      MYSQL_DATABASE: collection_app
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_HOST: db
+    env_file:
+      - ./app/.env
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    restart: on-failure

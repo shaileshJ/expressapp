@@ -1,0 +1,59 @@
+# kind: Deployment
+# apiVersion: expressapp/v1
+# metadata:
+#   name: expressapp
+# spec:
+#   replicas: 2
+#   selector:
+#     matchLabels:
+#       app: expressapp
+#   template:
+#     metadata:
+#       labels:
+#         app: react-docker
+#     spec:
+#       containers:
+#       - name: react-docker
+#         image: your_docker_username/react-docker
+#         ports:
+#         - containerPort: 80
+
+
+#For creating Kubernetes Deployment in the Minikube cluster
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expressapp-web-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: expressapp-web
+  template:
+    metadata:
+      labels:
+        app: expressapp-web
+    spec:
+      containers:
+      - name: expressapp-web
+        image: shailesh21j/expressapp_web
+        resources:
+          limits:
+            memory: "384Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3001
+---
+#For creating a Kubernetes Service in the Minikube cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: expressapp-web-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: expressapp-web
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: 3001

@@ -15,6 +15,7 @@ If you are facing below error while connecting to mysql
 
   2nd
   flush privileges;
+  aaa
 
 
 

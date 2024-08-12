@@ -21,8 +21,28 @@ const users = require('../../models/users');
 //         res.status(400).json({ message: 'invalid sort parameters' });
 //     }
 // };
+const createUser = async (req, res) => {
+    console.log('inside the crete user function');
+    try {
+        const { id, name, phone, email } = req.body;
+        console.log(req.body);
+        users.insertUser(req.body, (err, results) => {
+            if (err) {
+                console.error('Error inserting user:', err);
+                res.status(500).send('Server error');
+                return;
+            }
+            res.status(201).send('User created successfully');
+        });
 
+    }
+    catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};
 const getUsers = (req, res) => {
+    console.log('inside getusers');
     users.getAllUsers((err, users) => {
         if (err) {
             console.error('Error fetching users data:', err);
@@ -75,9 +95,10 @@ const getOneUser = (req, res) => {
     // } else {
     //     res.status(200).json({ user: result });
     // }
-}
+};
 
-const updateUser = (req, res) => {
+
+const dupdateUser = (req, res) => {
     // if (!req.params.userId) {
     //     res.status(400).json({ message: 'user id is required' });
     // }
@@ -85,23 +106,58 @@ const updateUser = (req, res) => {
     // if (!result) {
     //     res.status(404).json({ message: 'invalid user id' });
     // } else {
-    res.status(200).json({ message: `user with id ${req.params.userId} was updated` });
-    //}
+    //     res.status(200).json({ message: `user with id ${req.params.userId} was updated` });
+    // }
+};
+
+const updateUser = async (req, res) => {
+    console.log('inside the update user function');
+    try {
+        const { id, name, phone, email } = req.body;
+        console.log(req.body);
+        users.updatetUser(req.body, (err, results) => {
+            if (err) {
+                console.error('Error updating user:', err);
+                res.status(500).send('Server error');
+                return;
+            }
+            res.status(201).send('User updated successfully');
+        });
+
+    }
+    catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 };
 
 const removeUser = (req, res) => {
-    // if (!req.params.userId) {
-    //     res.status(400).json({ message: 'user id is required' });
-    // }
-    // const result = users.find((user) => user.id === parseInt(req.params.userId));
-    // if (!result) {
-    //     res.status(404).json({ message: 'invalid user id' });
-    // } else {
-    res.status(200).json({ message: `user with id ${req.params.userId} was deleted` });
-    //}
+    const userID = req.params.userId;
+    if (!req.params.userId) {
+        res.status(400).json({ message: 'user id is required' });
+        return;
+    }
+
+    users.removeUser(userID, (err, user) => {
+        // console.log(user);
+        if (err) {
+            console.error('Error fetching users data:', err);
+            return res.status(500).json({ error: 'Internal server erro' });
+        } else {
+            if (user == '') {
+                return res.status(404).json({ message: 'invalid user id' });
+
+            } else {
+                return res.status(200).json({ message: `user with id ` + userID + ` was deleted` });
+
+            }
+        }
+
+    });
 };
 
 module.exports = {
+    createUser,
     getUsers,
     getOneUser,
     updateUser,

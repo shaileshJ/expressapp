@@ -17,6 +17,9 @@ const PORT = process.env.APP_PORT || 3001;
 // Use the cors middleware
 app.use(cors());
 
+// Middleware to parse JSON
+app.use(express.json());
+
 // Your other routes and configurations
 
 app.use('/api', routes);

@@ -31,11 +31,19 @@ const pool = mysql.createPool({
     // waitForConnections: true,
     // connectionLimit: 10,
     // queueLimit: 0,
-    host: process.env.MYSQL_HOST || "localhost",
-    user: process.env.MYSQL_USER || "root",
+
+    // host: process.env.MYSQL_HOST || "localhost",
+    // user: process.env.MYSQL_USER || "root",
+    // port: 3306,
+    // password: process.env.MYSQL_PASSWORD || "password",
+    // database: process.env.MYSQL_DATABASE || "collection_app",
+
+    host: process.env.MYSQL_HOST || "appdb.cpo00k44otbm.ap-south-1.rds.amazonaws.com",
+    user: process.env.MYSQL_USER || "admin",
     port: 3306,
-    password: process.env.MYSQL_PASSWORD || "password",
-    database: process.env.MYSQL_DATABASE || "collection_app",
+    password: process.env.MYSQL_PASSWORD || "$32Zsaw21S$ww",
+    database: process.env.MYSQL_DATABASE || "awsdb",
+
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
